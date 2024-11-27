@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+        }
+        .todo {
+            background-color: #ff9800;
+        }
+        .in-progress {
+            background-color: #2196f3;
+        }
+        .done {
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Process Status</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Process Name</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="process-status">
+            <!-- Status will be dynamically loaded here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Example data
+        const processes = [
+            { name: 'Process A', status: 'To Do' },
+            { name: 'Process B', status: 'In Progress' },
+            { name: 'Process C', status: 'Done' },
+            { name: 'Process D', status: 'In Progress' },
+            { name: 'Process E', status: 'To Do' },
+        ];
+
+        // Map statuses to CSS classes
+        const statusClasses = {
+            'To Do': 'todo',
+            'In Progress': 'in-progress',
+            'Done': 'done',
+        };
+
+        // Render processes in the table
+        const tbody = document.getElementById('process-status');
+        processes.forEach(process => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${process.name}</td>
+                <td><span class="status ${statusClasses[process.status]}">${process.status}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
+    </script>
+</body>
+</html>
