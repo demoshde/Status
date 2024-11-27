@@ -7,78 +7,74 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
             text-align: center;
+            margin: 20px;
         }
-        table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
+        ul {
+            list-style: none;
+            padding: 0;
         }
-        th, td {
+        li {
+            padding: 10px 15px;
+            margin: 5px 0;
             border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 300px;
+            margin: 10px auto;
         }
-        th {
-            background-color: #f4f4f4;
+        .online {
+            color: green;
+            font-weight: bold;
         }
-        .status {
-            padding: 5px 10px;
-            border-radius: 4px;
-            color: white;
-        }
-        .todo {
-            background-color: #ff9800;
-        }
-        .in-progress {
-            background-color: #2196f3;
-        }
-        .done {
-            background-color: #4caf50;
+        .offline {
+            color: red;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <h1>Process Status</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Process Name</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody id="process-status">
-            <!-- Status will be dynamically loaded here -->
-        </tbody>
-    </table>
+    <ul id="status-list">
+        <!-- Status items will be dynamically inserted here -->
+    </ul>
 
     <script>
         // Example data
         const processes = [
-            { name: 'Process A', status: 'To Do' },
-            { name: 'Process B', status: 'In Progress' },
-            { name: 'Process C', status: 'Done' },
-            { name: 'Process D', status: 'In Progress' },
-            { name: 'Process E', status: 'To Do' },
+            { id: 1, name: 'Process A', status: 'Online' },
+            { id: 2, name: 'Process B', status: 'Offline' },
+            { id: 3, name: 'Process C', status: 'Online' },
+            { id: 4, name: 'Process D', status: 'Online' },
+            { id: 5, name: 'Process E', status: 'Offline' },
         ];
 
-        // Map statuses to CSS classes
-        const statusClasses = {
-            'To Do': 'todo',
-            'In Progress': 'in-progress',
-            'Done': 'done',
-        };
-
-        // Render processes in the table
-        const tbody = document.getElementById('process-status');
+        // Render the status list with dropdowns
+        const statusList = document.getElementById('status-list');
         processes.forEach(process => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${process.name}</td>
-                <td><span class="status ${statusClasses[process.status]}">${process.status}</span></td>
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <span>${process.name}: </span>
+                <select data-id="${process.id}">
+                    <option value="Online" ${process.status === 'Online' ? 'selected' : ''}>Online</option>
+                    <option value="Offline" ${process.status === 'Offline' ? 'selected' : ''}>Offline</option>
+                </select>
+                <span class="${process.status.toLowerCase()}">${process.status}</span>
             `;
-            tbody.appendChild(row);
+
+            // Add event listener to the dropdown
+            const dropdown = listItem.querySelector('select');
+            dropdown.addEventListener('change', (event) => {
+                const newStatus = event.target.value;
+                process.status = newStatus; // Update the process status
+                const statusSpan = listItem.querySelector('span:last-child');
+                statusSpan.className = newStatus.toLowerCase();
+                statusSpan.textContent = newStatus; // Update the status text
+            });
+
+            statusList.appendChild(listItem);
         });
     </script>
 </body>
