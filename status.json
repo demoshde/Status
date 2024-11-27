@@ -1,0 +1,4 @@
+[
+    { "name": "Process A", "status": "Online" },
+    { "name": "Process B", "status": "Offline" }
+]
